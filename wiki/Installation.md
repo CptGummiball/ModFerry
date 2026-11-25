@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- **Python 3.10 or newer**: [python.org/downloads](https://www.python.org/downloads/). On Windows, keep the `py` launcher option enabled during setup.
+- **Python 3.11 or newer**: [python.org/downloads](https://www.python.org/downloads/). On Windows, keep the `py` launcher option enabled during setup.
 - An internet connection on the first start (to install the dependencies).
 - A modern browser.
 

@@ -11,7 +11,7 @@
   <a href="https://github.com/CptGummiball/ModFerry/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/CptGummiball/ModFerry/actions/workflows/tests.yml/badge.svg"></a>
   <a href="https://github.com/CptGummiball/ModFerry/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/CptGummiball/ModFerry?color=4caf3a"></a>
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue"></a>
-  <img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10%2B-3776ab?logo=python&logoColor=white">
+  <img alt="Python 3.11+" src="https://img.shields.io/badge/python-3.11%2B-3776ab?logo=python&logoColor=white">
   <img alt="CurseForge" src="https://img.shields.io/badge/CurseForge-upload%20API-f16436?logo=curseforge&logoColor=white">
   <img alt="Modrinth" src="https://img.shields.io/badge/Modrinth-API%20v2-1bd96a?logo=modrinth&logoColor=white">
   <img alt="Languages" src="https://img.shields.io/badge/UI-English%20%7C%20Deutsch-informational">
@@ -47,7 +47,7 @@ It runs on your own computer (`127.0.0.1`), talks only to the official CurseForg
 
 ## Quick start
 
-You need **Python 3.10 or newer**.
+You need **Python 3.11 or newer**.
 
 | Windows | Linux / macOS |
 |---|---|
@@ -96,7 +96,7 @@ Issues, ideas, translations and pull requests are welcome. Please read [CONTRIBU
 
 ModFerry ist eine lokale Web-App, mit der du **viele Minecraft-Dateien auf einmal** zu **CurseForge** und/oder **Modrinth** hochlädst: Mods, Resourcepacks, Datapacks, Shaderpacks und Modpacks. Versionen, Loader und Java werden aus den Dateien gelesen (ohne zu raten), alles Weitere stellst du in einer Tabelle ein, einzeln oder per Batch. Dazu gibt es Profile, Changelog-Platzhalter, Trockenlauf, sichere Wiederholung fehlgeschlagener Uploads, einen Upload-Verlauf und verschlüsselt gespeicherte Tokens. Die Oberfläche gibt es auf Deutsch und Englisch.
 
-**Start:** Python 3.10+ installieren, `start-windows.bat` bzw. `./start-linux.sh` ausführen, `http://127.0.0.1:8765` öffnen. Ausführliche Anleitung im [Wiki](../../wiki).
+**Start:** Python 3.11+ installieren, `start-windows.bat` bzw. `./start-linux.sh` ausführen, `http://127.0.0.1:8765` öffnen. Ausführliche Anleitung im [Wiki](../../wiki).
 
 ## License
 

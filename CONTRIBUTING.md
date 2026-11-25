@@ -39,7 +39,7 @@ There is no build step: the frontend is plain HTML/CSS/JS in `static/`.
 2. Fork the repo and create a branch from `main`: `fix/modrinth-env`, `feat/server-pack-names`, `docs/wiki-typo` …
 3. Keep the PR focused on one thing. Small PRs get reviewed faster.
 4. Fill in the PR template checklist.
-5. CI must be green (tests on Windows + Linux, Python 3.10 and 3.13).
+5. CI must be green (tests on Windows + Linux, Python 3.11 and 3.13).
 6. PRs are merged with **squash merge**. The PR title becomes the commit message, so please write it like one (see below).
 
 ## Commit / PR title style

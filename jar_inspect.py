@@ -3,10 +3,7 @@ import json
 import re
 import zipfile
 from pathlib import Path
-try:
-    import tomllib
-except ImportError:
-    import tomli as tomllib
+import tomllib
 
 # Minecraft 26.x uses a distinct two-part scheme; never infer MC from mod version.
 MC_VERSION = re.compile(r'(?<![0-9A-Za-z])(?:1\.(?:[0-9]|[12][0-9])(?:\.[0-9]+)?|2[6-9]\.[0-9]+(?:\.[0-9]+)?)(?![0-9A-Za-z])')

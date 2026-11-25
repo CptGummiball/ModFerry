@@ -3,6 +3,10 @@
 set -e
 cd "$(dirname "$0")"
 [ -x .venv/bin/python ] || python3 -m venv .venv
+if ! .venv/bin/python -c 'import sys; sys.exit(sys.version_info < (3, 11))'; then
+  echo "ModFerry needs Python 3.11 or newer. Install it, delete the .venv folder and start again." >&2
+  exit 1
+fi
 .venv/bin/python -m pip install --disable-pip-version-check -q -r requirements.txt
 PORT="${MODFERRY_PORT:-8765}"
 URL="http://127.0.0.1:${PORT}"

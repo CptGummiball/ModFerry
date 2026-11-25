@@ -11,7 +11,7 @@ python -m unittest discover -s tests -v
 python app.py
 ```
 
-Use `MODFERRY_DATA` with a scratch folder while developing so your real tokens and profiles stay untouched. The tests do this automatically. CI runs the tests on Windows and Ubuntu with Python 3.10 and 3.13.
+Use `MODFERRY_DATA` with a scratch folder while developing so your real tokens and profiles stay untouched. The tests do this automatically. CI runs the tests on Windows and Ubuntu with Python 3.11 and 3.13.
 
 ## Layout
 
@@ -74,7 +74,7 @@ To build a ZIP locally: `python tools/make_release.py` (version from `git descri
 
 | Workflow | When | What |
 |---|---|---|
-| Tests | every PR, every push to `main`, before a release | unit tests on Windows + Linux, Python 3.10 and 3.13 |
+| Tests | every PR, every push to `main`, before a release | unit tests on Windows + Linux, Python 3.11 and 3.13 |
 | Release | a release is published | tests, build the ZIP with the tag's version, attach it |
 | PR labels | PR opened or title edited | label from the title type (`feat:`, `fix:`, …) |
 | Dependabot auto-merge | Dependabot PR for minor/patch updates | enables auto-merge; GitHub merges once the tests are green |

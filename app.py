@@ -1,4 +1,10 @@
 """ModFerry: local batch uploader for CurseForge and Modrinth. Run: python app.py"""
+import sys
+
+if sys.version_info < (3, 11):
+    sys.exit("ModFerry needs Python 3.11 or newer (found %d.%d). Download: https://www.python.org/downloads/"
+             % sys.version_info[:2])
+
 import json
 import os
 import re

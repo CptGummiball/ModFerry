@@ -6,7 +6,8 @@ Run a **🔍 Dry run** first: most problems show up there with a clear message.
 
 | Problem | Fix |
 |---|---|
-| "Python 3.10+ is required" | Install Python from python.org; on Windows make sure the `py` launcher is installed. |
+| "Python 3.11+ is required" | Install Python from python.org; on Windows make sure the `py` launcher is installed. |
+| "The .venv folder uses an older Python" / "ModFerry needs Python 3.11 or newer" | ModFerry was set up with an older Python before. Install Python 3.11+, delete the `.venv` folder and start again. |
 | Installation of dependencies fails | Check your internet connection / proxy and start again. |
 | Port already in use | Another ModFerry is running, or use a different port: [[Configuration]]. |
 | "Only local access is allowed" | Open `http://127.0.0.1:8765` or `http://localhost:8765`, not your computer's network name. |

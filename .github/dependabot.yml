@@ -6,8 +6,16 @@ updates:
       interval: weekly
     labels: [dependencies]
     open-pull-requests-limit: 5
+    # One pull request for all Python packages instead of one per package,
+    # because they all touch neighbouring lines in requirements.txt.
+    groups:
+      python-packages:
+        patterns: ["*"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
     labels: [dependencies]
+    groups:
+      github-actions:
+        patterns: ["*"]

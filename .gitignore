@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local user data: tokens, profiles, history and cached uploads. NEVER commit.
+data/
+
+# Local tooling / notes
+.claude/
+Ideen.md
+/logo512.png
+*.tmp
+dist/
+GITHUB-SETUP.md

@@ -1,0 +1,25 @@
+name: 🌍 Translation
+description: Fix a translation or offer a new language
+labels: [translation]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is it about?
+      options: [Wrong or unclear text, Missing translation, New language]
+    validations:
+      required: true
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      placeholder: German / English / French …
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Where does the text appear, what does it say now and what should it say? For a new language, see the "Translations" section on the Development wiki page.
+    validations:
+      required: true

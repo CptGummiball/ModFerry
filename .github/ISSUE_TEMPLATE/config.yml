@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ❓ Question / help
+    url: https://github.com/CptGummiball/ModFerry/discussions/categories/q-a
+    about: Ask questions about using ModFerry in Discussions.
+  - name: 📖 Wiki
+    url: https://github.com/CptGummiball/ModFerry/wiki
+    about: Installation, guides and troubleshooting.
+  - name: 🔒 Security vulnerability
+    url: https://github.com/CptGummiball/ModFerry/security/advisories/new
+    about: Please report security problems privately, not as a public issue.

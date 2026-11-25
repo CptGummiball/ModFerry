@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ModFerry</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="brand">
+      <div class="logo-tile"><img src="/logo-wide.png" alt="ModFerry"></div>
+      <div>
+        <h1 class="sr-only">ModFerry</h1>
+        <div><span class="ver" id="appVersion"></span></div>
+        <small data-i18n="app.tagline">Batch uploads to CurseForge &amp; Modrinth</small>
+      </div>
+    </div>
+    <div class="actions">
+      <small id="apiState" data-i18n="state.versionsNotLoaded">CurseForge versions not loaded</small>
+      <select id="lang" aria-label="Language" style="width:auto">
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+  </header>
+
+  <div id="notice" class="hidden" role="status"></div>
+
+  <!-- 1 Project -->
+  <section class="panel">
+    <h2 data-i18n="project.title">1 · Project</h2>
+    <div class="field">
+      <span class="label" data-i18n="project.type">Project type</span>
+      <div class="types" id="projectTypes" role="radiogroup"></div>
+    </div>
+    <div class="grid" style="margin-top:14px">
+      <div class="field">
+        <label for="profiles" data-i18n="project.profile">Profile</label>
+        <div class="actions">
+          <select id="profiles" style="flex:1"></select>
+          <button id="saveProfile" data-i18n="common.save">Save</button>
+          <button id="delProfile" class="danger" data-i18n-title="project.deleteProfile" title="Delete profile">✕</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="release" data-i18n="project.defaultRelease">Default release type</label>
+        <select id="release">
+          <option value="release" data-i18n="release.release">Release</option>
+          <option value="beta" data-i18n="release.beta">Beta</option>
+          <option value="alpha" data-i18n="release.alpha">Alpha</option>
+        </select>
+      </div>
+      <div class="field">
+        <span class="label" data-i18n="project.targets">Publish to</span>
+        <div class="actions" style="min-height:40px">
+          <label class="line"><input type="checkbox" id="publishCF" checked> CurseForge</label>
+          <label class="line"><input type="checkbox" id="publishMR" checked> Modrinth</label>
+        </div>
+      </div>
+    </div>
+    <p class="hint" id="typeHint"></p>
+  </section>
+
+  <!-- 2 Platforms -->
+  <section class="panel">
+    <h2 data-i18n="platforms.title">2 · Platforms</h2>
+    <div class="grid two">
+      <div class="card" id="cfCard">
+        <h3><span class="badge cf">CF</span> CurseForge</h3>
+        <div class="grid two">
+          <div class="field">
+            <label for="token" data-i18n="platforms.cfToken">API token (empty = saved)</label>
+            <input id="token" type="password" autocomplete="off" data-i18n-ph="platforms.cfTokenPh" placeholder="CurseForge author token">
+          </div>
+          <div class="field">
+            <label for="project" data-i18n="platforms.cfProject">Project ID</label>
+            <input id="project" inputmode="numeric" placeholder="123456">
+          </div>
+          <div class="field">
+            <label for="cfSlug" data-i18n="platforms.cfSlug">Project slug (optional, for links)</label>
+            <input id="cfSlug" placeholder="my-mod">
+          </div>
+          <div class="field">
+            <span class="label">&nbsp;</span>
+            <button id="loadVersions" data-i18n="platforms.loadVersions">↻ Load CurseForge versions</button>
+          </div>
+        </div>
+        <label class="line" style="margin-top:12px"><input type="checkbox" id="manual"> <span data-i18n="platforms.manualRelease">Publish manually after approval</span></label>
+      </div>
+      <div class="card" id="mrCard">
+        <h3><span class="badge mr">MR</span> Modrinth</h3>
+        <div class="grid two">
+          <div class="field">
+            <label for="modrinthToken" data-i18n="platforms.mrToken">Personal access token (empty = saved)</label>
+            <input id="modrinthToken" type="password" autocomplete="off" placeholder="mrp_…">
+          </div>
+          <div class="field">
+            <label for="modrinthProject" data-i18n="platforms.mrProject">Project ID or slug</label>
+            <input id="modrinthProject" placeholder="my-mod">
+          </div>
+          <div class="field">
+            <label for="mrStatus" data-i18n="platforms.mrStatus">Version status</label>
+            <select id="mrStatus">
+              <option value="listed" data-i18n="mrStatus.listed">Listed</option>
+              <option value="unlisted" data-i18n="mrStatus.unlisted">Unlisted</option>
+              <option value="draft" data-i18n="mrStatus.draft">Draft</option>
+              <option value="archived" data-i18n="mrStatus.archived">Archived</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="label">&nbsp;</span>
+            <button id="loadMRTags" data-i18n="platforms.loadTags">↻ Load Modrinth versions/loaders</button>
+          </div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <label class="line"><input type="checkbox" id="mrFeatured"> <span data-i18n="platforms.featured">Mark as featured</span></label>
+          <label class="line"><input type="checkbox" id="showSnapshots"> <span data-i18n="platforms.snapshots">Show snapshots</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="between">
+        <h3 style="margin:0">🔐 <span data-i18n="tokens.title">Token store</span></h3>
+        <div class="actions">
+          <button id="saveTokens" data-i18n="tokens.save">Save tokens encrypted</button>
+          <button id="deleteCFToken" class="danger" data-i18n="tokens.deleteCF">Delete CF token</button>
+          <button id="deleteMRToken" class="danger" data-i18n="tokens.deleteMR">Delete MR token</button>
+        </div>
+      </div>
+      <p id="tokenState" class="hint"></p>
+      <div id="masterPasswordWrap" class="actions hidden" style="margin-top:8px">
+        <input id="masterPassword" type="password" style="max-width:350px" data-i18n-ph="tokens.masterPh" placeholder="Master password (min. 12 characters)" autocomplete="new-password">
+        <button id="unlockTokens" data-i18n="tokens.unlock">Unlock / set up</button>
+      </div>
+      <p class="hint" data-i18n="tokens.hint">Windows: encrypted with DPAPI, bound to your Windows account. Linux/macOS: file encrypted with a master password (unlock once per start). Tokens are never stored in profiles or in the browser.</p>
+    </div>
+  </section>
+
+  <!-- 3 Files -->
+  <section class="panel">
+    <div class="between">
+      <h2 style="margin:0"><span data-i18n="files.title">3 · Files</span> (<span id="count">0</span>) <small id="selectedCount"></small></h2>
+      <div class="actions">
+        <button id="addFiles" data-i18n="files.add">+ Add files</button>
+        <button id="addFolder" data-i18n="files.addFolder">+ Add folder</button>
+        <button id="removeSelected" class="danger" data-i18n="files.removeSelected">Remove selected</button>
+      </div>
+    </div>
+    <input type="file" id="fileInput" class="hidden" multiple>
+    <input type="file" id="folderInput" class="hidden" multiple webkitdirectory>
+    <input type="file" id="serverPackInput" class="hidden" accept=".zip">
+    <div id="drop" class="drop" data-i18n="files.drop">Drop files here or use the buttons above</div>
+    <div class="tablewrap">
+      <table id="table">
+        <thead><tr>
+          <th><input type="checkbox" id="selectAll" data-i18n-title="files.selectAll" title="Select all"></th>
+          <th data-i18n="col.file">File / display name</th>
+          <th><span data-i18n="col.minecraft">Minecraft</span><span class="badge cf">CF</span></th>
+          <th class="col-loader"><span data-i18n="col.loader">Loader</span><span class="badge cf">CF</span></th>
+          <th class="col-java"><span>Java</span><span class="badge cf">CF</span></th>
+          <th class="col-env"><span data-i18n="col.env">Environment</span><span class="badge cf">CF</span></th>
+          <th><span>Modrinth</span><span class="badge mr">MR</span></th>
+          <th data-i18n="col.release">Release</th>
+          <th data-i18n="col.deps">Dependencies</th>
+          <th data-i18n="col.changelog">Changelog</th>
+          <th data-i18n="col.status">Status</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="hint" data-i18n="files.hint">Versions are read from the file metadata. Ambiguous CurseForge versions are never picked automatically. Category and API ID are shown in the picker.</p>
+  </section>
+
+  <!-- 4 Batch -->
+  <section class="panel">
+    <h2 data-i18n="batch.title">4 · Batch editing for selected files</h2>
+    <div class="grid">
+      <div class="field"><span class="label"><span data-i18n="col.minecraft">Minecraft</span> <span class="badge cf">CF</span></span><button data-batch="minecraft" data-i18n="batch.choose">Choose …</button></div>
+      <div class="field col-loader-b"><span class="label"><span data-i18n="col.loader">Loader</span> <span class="badge cf">CF</span></span><button data-batch="loader" data-i18n="batch.choose">Choose …</button></div>
+      <div class="field col-java-b"><span class="label">Java <span class="badge cf">CF</span></span><button data-batch="java" data-i18n="batch.choose">Choose …</button></div>
+      <div class="field col-env-b"><span class="label"><span data-i18n="col.env">Environment</span> <span class="badge cf">CF</span></span><button data-batch="environment" data-i18n="batch.choose">Choose …</button></div>
+      <div class="field"><span class="label">Modrinth <span class="badge mr">MR</span></span><button id="batchMR" data-i18n="batch.mr">Modrinth settings …</button></div>
+      <div class="field"><span class="label" data-i18n="col.deps">Dependencies</span><button id="batchRelations" data-i18n="batch.deps">Dependencies …</button></div>
+      <div class="field">
+        <span class="label" data-i18n="col.release">Release</span>
+        <div class="actions">
+          <select id="batchReleaseType" style="flex:1">
+            <option value="release" data-i18n="release.release">Release</option>
+            <option value="beta" data-i18n="release.beta">Beta</option>
+            <option value="alpha" data-i18n="release.alpha">Alpha</option>
+          </select>
+          <button id="batchRelease" data-i18n="batch.apply">Apply</button>
+        </div>
+      </div>
+      <div class="field"><span class="label" data-i18n="col.status">Status</span><button id="batchReset" data-i18n="batch.reset">Reset upload status</button></div>
+    </div>
+    <p class="hint" data-i18n="batch.hint">A batch action only replaces the chosen category in the selected files. Everything else stays as it is.</p>
+  </section>
+
+  <!-- 5 Changelog -->
+  <section class="panel">
+    <div class="between">
+      <h2 style="margin:0" data-i18n="changelog.title">5 · Markdown changelog</h2>
+      <div class="actions">
+        <label class="line"><input type="checkbox" id="latestOnly" checked> <span data-i18n="changelog.latestOnly">only newest section</span></label>
+        <button id="importChangelog" data-i18n="changelog.import">Import CHANGELOG.md …</button>
+        <input type="file" id="changelogInput" class="hidden" accept=".md,.markdown,.txt">
+      </div>
+    </div>
+    <div class="grid two" style="margin-top:12px">
+      <div class="field">
+        <label for="changelog" data-i18n="changelog.shared">Shared for all files</label>
+        <textarea id="changelog" rows="11" placeholder="## Changes&#10;- Fixed {loader} crash on {mc}"></textarea>
+      </div>
+      <div class="field">
+        <span class="label" id="previewLabel" data-i18n="changelog.preview">Preview (sanitized)</span>
+        <div id="preview" class="md-preview"></div>
+      </div>
+    </div>
+    <p class="hint"><span data-i18n="changelog.placeholders">Placeholders, filled in per file:</span>
+      <code class="ph">{version}</code> <code class="ph">{mc}</code> <code class="ph">{loader}</code> <code class="ph">{name}</code> <code class="ph">{file}</code> <code class="ph">{date}</code></p>
+  </section>
+
+  <!-- 6 Upload -->
+  <section class="panel">
+    <div class="between">
+      <div>
+        <h2 style="margin:0 0 6px" data-i18n="upload.title">6 · Upload</h2>
+        <div class="hint" style="margin:0" data-i18n="upload.hint">Files that were already uploaded to a platform are skipped there. Retry only resends failed uploads.</div>
+      </div>
+      <div class="actions">
+        <button id="dryRun" data-i18n="upload.dryRun">🔍 Dry run</button>
+        <button id="retry" disabled data-i18n="upload.retry">Retry failed</button>
+        <button id="upload" class="primary" data-i18n="upload.start">⬆ Upload</button>
+      </div>
+    </div>
+    <progress id="bar" value="0" max="100" style="margin-top:14px"></progress>
+    <div id="progress" class="hint" data-i18n="upload.idle">No upload started yet.</div>
+  </section>
+
+  <!-- 7 History -->
+  <section class="panel">
+    <div class="between">
+      <h2 style="margin:0" data-i18n="history.title">7 · Upload history</h2>
+      <div class="actions">
+        <button id="refreshHistory" data-i18n="history.refresh">↻ Refresh</button>
+        <button id="clearHistory" class="danger" data-i18n="history.clear">Clear history</button>
+      </div>
+    </div>
+    <div class="tablewrap" style="margin-top:12px;max-height:340px">
+      <table class="history" style="min-width:760px">
+        <thead><tr>
+          <th data-i18n="history.time">Time</th><th data-i18n="history.platform">Platform</th>
+          <th data-i18n="col.file">File</th><th data-i18n="history.versions">Versions</th>
+          <th data-i18n="col.release">Release</th><th data-i18n="history.link">Link</th>
+        </tr></thead>
+        <tbody id="historyRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="hint">ModFerry · <span data-i18n="footer.local">runs locally on 127.0.0.1 · files only go to CurseForge and/or Modrinth</span></footer>
+</main>
+
+<!-- CurseForge version picker -->
+<div id="modalOverlay" class="overlay hidden">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle"></h2>
+    <input id="modalSearch" data-i18n-ph="common.search" placeholder="Search …">
+    <div id="modalOptions" class="options"></div>
+    <div class="between">
+      <small id="modalCount"></small>
+      <div class="actions"><button id="modalCancel" data-i18n="common.cancel">Cancel</button><button class="primary" id="modalApply" data-i18n="common.apply">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modrinth editor -->
+<div id="mrOverlay" class="overlay hidden">
+  <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="mrTitle">
+    <h2 id="mrTitle"></h2>
+    <p class="hint" id="mrBatchHint" style="margin:0" data-i18n="mr.batchHint">Only the fields you change are applied to all selected files. The version number is set per file.</p>
+    <div class="grid two">
+      <div class="field">
+        <span class="label" data-i18n="mr.gameVersions">Minecraft versions</span>
+        <input id="mrSearch" data-i18n-ph="common.search" placeholder="Search …">
+        <div id="mrVersions" class="options short"></div>
+        <input id="mrVersionsFree" data-i18n-ph="mr.freeVersions" placeholder="or comma-separated, e.g. 1.21.1, 26.2">
+      </div>
+      <div class="field">
+        <span class="label" data-i18n="mr.loaders">Loaders</span>
+        <div id="mrLoaders" class="chips"></div>
+        <div class="field" id="mrNumberWrap" style="margin-top:12px">
+          <label for="mrNumber" data-i18n="mr.number">Version number (unique per project)</label>
+          <input id="mrNumber" placeholder="1.2.0+fabric-1.21.1">
+        </div>
+        <div class="field" id="mrEnvWrap" style="margin-top:12px">
+          <label for="mrEnv" data-i18n="mr.environment">Environment</label>
+          <select id="mrEnv"></select>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <label class="line"><input type="checkbox" id="mrEnabled"> <span data-i18n="mr.enabled">Upload this to Modrinth</span></label>
+          <label class="line"><input type="checkbox" id="cfEnabled"> <span data-i18n="mr.cfEnabled">Upload this to CurseForge</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="between">
+      <small id="mrCount"></small>
+      <div class="actions"><button id="mrCancel" data-i18n="common.cancel">Cancel</button><button class="primary" id="mrApply" data-i18n="common.apply">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Dependencies -->
+<div id="relationOverlay" class="overlay hidden">
+  <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="relationTitle">
+    <h2 id="relationTitle"></h2>
+    <p class="hint" style="margin:0" data-i18n="deps.hint">CurseForge slug (e.g. architectury-api), optional CurseForge ID, Modrinth project ID/slug and relation type. For selected files the whole list is replaced.</p>
+    <div id="relationRows" class="options" style="max-height:50vh"></div>
+    <div class="between">
+      <button id="relationAdd" data-i18n="deps.add">+ Dependency</button>
+      <div class="actions"><button id="relationCancel" data-i18n="common.cancel">Cancel</button><button class="primary" id="relationApply" data-i18n="common.apply">Apply</button></div>
+    </div>
+    <p class="hint" data-i18n="deps.includeHint">⚠ "Include" is not supported by the official upload endpoint and blocks the upload. Modrinth does not support "Tool".</p>
+  </div>
+</div>
+
+<!-- Per-file changelog -->
+<div id="logOverlay" class="overlay hidden">
+  <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="logTitle">
+    <h2 id="logTitle"></h2>
+    <label class="line"><input type="checkbox" id="logOverride"> <span data-i18n="log.override">Use an individual changelog for this file</span></label>
+    <div class="grid two">
+      <textarea id="logText" rows="14"></textarea>
+      <div id="logPreview" class="md-preview"></div>
+    </div>
+    <div class="actions" style="justify-content:flex-end"><button id="logCancel" data-i18n="common.cancel">Cancel</button><button class="primary" id="logApply" data-i18n="common.apply">Apply</button></div>
+  </div>
+</div>
+
+<!-- Dry run result -->
+<div id="dryOverlay" class="overlay hidden">
+  <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="dryTitle">
+    <h2 id="dryTitle" data-i18n="dry.title">Dry run: nothing was uploaded</h2>
+    <div id="dryBody"></div>
+    <div class="actions" style="justify-content:flex-end"><button class="primary" id="dryClose" data-i18n="common.close">Close</button></div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

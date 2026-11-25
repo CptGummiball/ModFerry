@@ -1,0 +1,19 @@
+# Categories for GitHub's "Generate release notes" button, based on PR labels.
+changelog:
+  exclude:
+    labels: [ignore-for-release]
+  categories:
+    - title: ✨ New features
+      labels: [enhancement]
+    - title: 🐞 Bug fixes
+      labels: [bug]
+    - title: 🧱 Minecraft versions / pack formats
+      labels: [pack-format]
+    - title: 🌍 Translations
+      labels: [translation]
+    - title: 📖 Documentation
+      labels: [documentation]
+    - title: 📦 Dependencies
+      labels: [dependencies]
+    - title: Other changes
+      labels: ["*"]

@@ -1,0 +1,68 @@
+name: 🐞 Bug report
+description: Something does not work as expected
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please check the [Troubleshooting](https://github.com/CptGummiball/ModFerry/wiki/Troubleshooting) page first.
+        **Never paste API tokens.** Security problems go to a [private advisory](https://github.com/CptGummiball/ModFerry/security/advisories/new) instead.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I removed tokens and other private data from everything I paste below.
+          required: true
+  - type: input
+    id: version
+    attributes:
+      label: ModFerry version
+      description: Shown next to the logo, e.g. v5.0.0
+      placeholder: v5.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows, Linux, macOS]
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: Project type
+      options: [Mod, Resource pack, Data pack, Shader pack, Modpack, Not related to a project type]
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options: [CurseForge, Modrinth, Neither (local problem)]
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Choose project type …
+        2. Add file …
+        3. Click …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Error message / dry-run output / console output
+      description: Status column text, the relevant part of the dry run, or the console window output.
+      render: shell

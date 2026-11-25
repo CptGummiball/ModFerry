@@ -1,0 +1,36 @@
+name: 🧱 New Minecraft version / pack format
+description: A new Minecraft release is missing from the pack format table
+title: "Pack formats for Minecraft "
+labels: [pack-format]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ModFerry maps `pack.mcmeta` formats to Minecraft versions with a built-in table (`pack_formats.py`).
+        Values come from the release table on the [Minecraft Wiki](https://minecraft.wiki/w/Pack_format). Release versions only, no snapshots.
+  - type: input
+    id: mc
+    attributes:
+      label: Minecraft version(s)
+      placeholder: "26.4"
+    validations:
+      required: true
+  - type: input
+    id: rp
+    attributes:
+      label: Resource pack format
+      placeholder: "104.0"
+    validations:
+      required: true
+  - type: input
+    id: dp
+    attributes:
+      label: Data pack format
+      placeholder: "128.1"
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source link
+      placeholder: https://minecraft.wiki/w/Pack_format

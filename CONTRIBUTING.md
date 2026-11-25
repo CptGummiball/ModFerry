@@ -44,7 +44,9 @@ There is no build step: the frontend is plain HTML/CSS/JS in `static/`.
 
 ## Commit / PR title style
 
-Short, imperative, optionally with a type prefix:
+The PR title matters: it becomes the line in the release notes, and its type sets the label automatically
+(`feat` → enhancement, `fix` → bug, `docs` → documentation, `i18n` → translation, `pack-format` → pack-format).
+Short and imperative:
 
 ```
 fix: keep server pack status when main upload succeeded

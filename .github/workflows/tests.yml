@@ -1,8 +1,15 @@
 name: Tests
 
 on:
+  # Branches are tested through their pull request; pushes only on main (avoids duplicate runs).
   push:
+    branches: [main]
   pull_request:
+  # Reused by the release workflow before it builds the ZIP.
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   test:

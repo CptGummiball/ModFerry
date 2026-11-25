@@ -1,0 +1,24 @@
+name: Dependabot auto-merge
+
+# Turns on auto-merge for Dependabot's minor/patch groups (see .github/dependabot.yml).
+# GitHub then merges the PR by itself as soon as all required tests are green.
+# Major updates (groups ending in "-major") are never merged automatically.
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      (startsWith(github.head_ref, 'dependabot/pip/python-minor-patch') ||
+       startsWith(github.head_ref, 'dependabot/github_actions/actions-minor-patch'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge (squash)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "$PR_URL"

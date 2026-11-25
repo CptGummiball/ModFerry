@@ -16,8 +16,8 @@ from file_inspect import EXTENSIONS, PROJECT_TYPES, inspect_upload, platforms_fo
 from markdown_preview import render as render_markdown
 from messages import UserError, pick_lang, t
 from secrets_store import TokenStore
+from version import VERSION
 
-VERSION = '5.0.0'
 ROOT = Path(__file__).resolve().parent
 DATA = Path(os.environ.get('MODFERRY_DATA') or os.environ.get('CF_UPLOADER_DATA') or ROOT / 'data')
 DATA.mkdir(parents=True, exist_ok=True)

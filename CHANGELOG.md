@@ -1,8 +1,7 @@
 # Changelog
 
-All notable changes to ModFerry are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/).
-
-## [Unreleased]
+From version 5.1.0 on, release notes are generated automatically from the merged pull requests and published on the
+[GitHub releases page](https://github.com/CptGummiball/ModFerry/releases). This file keeps the history up to 5.0.0.
 
 ## [5.0.0] (2026-11-25)
 

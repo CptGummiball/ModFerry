@@ -14,3 +14,6 @@ Ideen.md
 *.tmp
 dist/
 GITHUB-SETUP.md
+
+# Written into release ZIPs only
+/VERSION

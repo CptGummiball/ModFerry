@@ -37,6 +37,8 @@ The preview header shows which file's values are used (the first selected file, 
 
 ## Importing CHANGELOG.md
 
+_This is about **your** project's changelog that you publish with your uploads, not ModFerry's own._
+
 Click **Import CHANGELOG.md …** and choose a `.md` / `.txt` file.
 
 With **newest section only** ticked, ModFerry takes the content below the first `## ` heading that is not empty, so an empty `## [Unreleased]` block is skipped. The heading line itself is not included. Untick it to import the whole file.

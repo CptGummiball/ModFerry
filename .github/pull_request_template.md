@@ -18,7 +18,7 @@
 - [ ] New UI texts exist in **both** `static/i18n/de.json` and `static/i18n/en.json` (and backend texts in `messages.py`)
 - [ ] I tested it in the browser (`python app.py`), with `MODFERRY_DATA` pointing to a scratch folder
 - [ ] No tokens, personal data or files from `data/` are included
-- [ ] `CHANGELOG.md` has an entry under "Unreleased" (for user-facing changes)
+- [ ] The PR title follows the `type: description` style (`feat:`, `fix:`, `docs:`, `i18n:`, `pack-format:`). It becomes the line in the release notes and sets the label automatically.
 
 ## Screenshots / dry-run output
 

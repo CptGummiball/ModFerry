@@ -1,0 +1,43 @@
+name: PR labels
+
+# Adds a label from the PR title ("feat: …", "fix(ui): …", "docs: …"), so the
+# automatically generated release notes sort every PR into the right section.
+# pull_request_target gives the token write access for PRs from forks as well.
+# Safe here: the job never checks out or runs code from the pull request.
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label from title
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ github.event.pull_request.title }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          label=""
+          if [[ "$TITLE" =~ ^([A-Za-z0-9-]+)(\(([^\)]*)\))?!?: ]]; then
+            type="${BASH_REMATCH[1],,}"
+            scope="${BASH_REMATCH[3],,}"
+            case "$type" in
+              feat|feature)        label="enhancement" ;;
+              fix|bugfix)          label="bug" ;;
+              docs|doc)            label="documentation" ;;
+              i18n|translation)    label="translation" ;;
+              pack-format|packs)   label="pack-format" ;;
+              deps)                label="dependencies" ;;
+              chore|build|ci)      [[ "$scope" == deps* ]] && label="dependencies" ;;
+            esac
+          fi
+          if [[ -n "$label" ]]; then
+            echo "Title '$TITLE' -> label '$label'"
+            gh pr edit "$PR" --repo "$GITHUB_REPOSITORY" --add-label "$label"
+          else
+            echo "No label for title '$TITLE' (expected e.g. 'feat: ...', 'fix: ...', 'docs: ...')"
+          fi
